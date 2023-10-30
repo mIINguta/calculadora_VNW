@@ -1,154 +1,81 @@
-import React, {useState, useEffect} from 'react';
-import styled from 'styled-components';
-
+import React, {useState} from 'react';
+import { ConteinerCalc } from './styles/ConteinerCalc';
+import { Visor } from  './styles/Visor';
+import { Button, ButtonsLR, ButtonLimpar, ButtonResultado} from './styles/Buttons'
+import { NumerosDiv, NumerosLista, Li } from './styles/Numeros';
 
 function Calculadora(){
-    const ConteinerCalc = styled.section`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    width: 25vw;
-    height: 80vh;
-    border-radius: 10px;
-    border: 1px solid silver;
-    background-color: #000;
-    gap: 35px;
-    `
-    const Visor = styled.div`
-    margin-top: 12px;
-    padding: 10px;
-    width: 100%;
-    height: 10vh;
-    display: flex;
-    justify-content: flex-end;
-    text-align:center;
-    color: #fff;
-    
-    `
-    const NumerosDiv = styled.div`
-    width: 100%;
-    height: 50%;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    `
-    const NumerosLista = styled.ul`
-    display: flex;
-    justify-content: space-around;
-    list-style: none;
-    border: 1px solid;
-    `
-    const Li = styled.li`
-    width: 20%;
-    height: 9vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    `
-    const Button = styled.button`
-    width: 100%;
-    height: 100%;
-    border-radius: 10%;
-    border: none;
-    background-color: #424242;
-    color: #fff;
-    `
-    const ButtonLimpar = styled(Button)`
-    width:20%;
-    height: 10vh;
-    font-size: 1.3rem;
-    background-color: red;
-    `
-    const ButtonResultado = styled(ButtonLimpar)`
-    background-color: green;
-    `
-    const ButtonsLR = styled(Visor)`
-    height: 10vh;
-    gap: 10px;
-    border:none;
-    margin-bottom: 10px;
-    padding: 0px 10px 0 0;
-    
-    `
-
-    const [numberOne, setNumberOne] = useState(" ");
-    const [numberTwo, setNumberTwo] = useState(" ");
-    const [operator, setOperator] = useState(" ");
+    const [numberOne, setNumberOne] = useState("");
+    const [numberTwo, setNumberTwo] = useState("");
+    const [operator, setOperator] = useState("");
     const [result, setResult] = useState("");
     const [calcText, setCalcText] = useState("Calculadora");
 
     const getNumber = (e) => {
-        if(operator == " "){
-        setNumberOne(numberOne + e.target.value);
         setCalcText("");
-        setResult("");
-        console.log("numero 1" + numberOne)
+        if(operator !== "" && numberOne == ""){
+            setNumberOne(estadoAtual => operator.concat(numberOne + e.target.value));
+            setOperator("");
+        }
+        else if(operator == "" && numberOne == ""){
+            setNumberOne(estadoAtual => numberOne.concat(e.target.value));
+        }
+        else if(operator == "" && numberOne != ""){
+            setNumberOne(estadoAtual => numberOne.concat(e.target.value));
         }
         else{
-            setNumberTwo(numberTwo + e.target.value);
-            setResult("");
+            setNumberTwo(estadoAtual => numberTwo.concat(e.target.value));
         }
     }
     const getOperator = (e) =>{
         setCalcText("");
         setOperator(e.target.value);
     }
-
     function getResult(){
-
-        setResult(Number(numberOne) + Number(numberTwo));
         switch (operator){
             case "-":
                 setResult(Number(numberOne) - Number(numberTwo));
                 setNumberOne("");
                 setNumberTwo("");
-                setOperator("")
-                console.log(result);
+                setOperator("");
                 break;
         
             case "+":
                 setResult(Number(numberOne) + Number(numberTwo));
                 setNumberOne("");
                 setNumberTwo("");
-                setOperator("")
-                console.log(result);
+                setOperator("");
                 break;
             case "*":
                 setResult(Number(numberOne) * Number(numberTwo));
                 setNumberOne("");
                 setNumberTwo("");
-                setOperator("")
-                console.log(result);
+                setOperator("");
                 break;
             case "/":
                 setResult(Number(numberOne) / Number(numberTwo));
                 setNumberOne("");
                 setNumberTwo("");
-                setOperator("")
-                console.log(result);
+                setOperator("");
                 break;
         }
     } 
         const getDelete = () =>{
-            setNumberOne(" ");
-            setNumberTwo(" ");
-            setOperator(" ")
+            setNumberOne("");
+            setNumberTwo("");
+            setOperator("");
             setResult(" ");
             setCalcText("Calculadora");
         }
-
     return(
-
     <>
-    
      <ConteinerCalc> 
         <Visor>
         <h2>{calcText}</h2>
-            {numberOne}
-            {operator}
-            {numberTwo}
-            {result}
+            <p className='n1'>{numberOne}</p>
+            <p className='op'>{operator}</p>
+            <p className='n2'>{numberTwo}</p>
+            <p className='rs'>{result}</p>
         </Visor>
         <NumerosDiv>
             <NumerosLista>
@@ -179,10 +106,8 @@ function Calculadora(){
             <ButtonLimpar onClick={getDelete}>⌫</ButtonLimpar>
             <ButtonResultado onClick={getResult}> = </ButtonResultado>
             </ButtonsLR>
-            
         </NumerosDiv>
       </ConteinerCalc> 
-    
     </>
     )
 }

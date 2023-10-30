@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { GlobalStyle } from './assets/styles/GlobalStyle';
+import { GlobalStyle } from '../public/styles/GlobalStyle';
 import Calculadora from './assets/components/Calculadora';
 import styled from 'styled-components';
 
